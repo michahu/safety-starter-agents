@@ -51,18 +51,23 @@ class HazardWorld3D(Env):
 
 		pillar_env_config = deepcopy(config)
 		pillar_env_config['constrain_pillars'] = True 
+		pillar_env_config['constrained_object'] = 'pillars'
 
 		hazard_env_config = deepcopy(config)
-		hazard_env_config['constrain_hazards'] = True 
+		hazard_env_config['constrain_hazards'] = True
+		hazard_env_config['constrained_object'] = 'hazards' 
 
 		vases_env_config = deepcopy(config)
 		vases_env_config['constrain_vases'] = True 
+		vases_env_config['constrained_object'] = 'vases'
 
 		gremlins_env_config = deepcopy(config)
 		gremlins_env_config['constrain_gremlins'] = True 
+		gremlins_env_config['constrained_object'] = 'gremlins'
 
 		buttons_env_config = deepcopy(config)
 		buttons_env_config['constrain_buttons'] = True
+		buttons_env_config['constrained_object'] = 'buttons'
 
 		self.envs = [
 			Engine(pillar_env_config),
@@ -97,8 +102,9 @@ class HazardWorld3D(Env):
 @click.option('--target_kl', default=0.01)
 @click.option('--cost_lim', default=25)
 @click.option('--cpu', default=1)
+@click.option('--render', default=False)
 @click.option('--exp_name')
-def ppo_lagrangian_hw3d(exp_name, cpu, seed, num_steps, steps_per_epoch, save_freq, target_kl, cost_lim):
+def ppo_lagrangian_hw3d(exp_name, cpu, seed, num_steps, steps_per_epoch, save_freq, target_kl, cost_lim, render):
 
 	mpi_fork(cpu)
 
@@ -115,6 +121,7 @@ def ppo_lagrangian_hw3d(exp_name, cpu, seed, num_steps, steps_per_epoch, save_fr
 		cost_lim=cost_lim,
 		seed=seed,
 		logger_kwargs=logger_kwargs,
+		render=render
 		)
 
 
