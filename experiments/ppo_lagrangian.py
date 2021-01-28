@@ -17,6 +17,7 @@ class HazardWorld3D(Env):
 
 		config = {
 		'robot_base': 'xmls/point.xml',
+		'use_language': True,
 		'task': 'goal',
 		'observe_goal_lidar': True,
 		'observe_box_lidar': True,
