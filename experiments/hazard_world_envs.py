@@ -79,8 +79,10 @@ class HW3D(Env):
         self.curr_env, self.constrained_object = random.choice(self.envs)
         return self.curr_env.reset()
 
-    def get_constraint(self, dict):
-        lst = dict[self.env_type][self.constrained_object + str(self.cost_lim)]
+    def get_constraint(self, constraint_dict):
+        lst = constraint_dict[self.env_type][
+            self.constrained_object + str(self.cost_lim)
+        ]
         return random.choice(lst)
 
     def render(self, **kwargs):
@@ -104,6 +106,26 @@ class HW3DVariableCost(HW3D):
     def reset(self):
         self.reset_cost()
         return super().reset()
+
+
+class HW3DRelational(HW3D):
+    def __init__(self) -> None:
+        super().__init__()
+        self.env_type = "relational"
+
+    def reset_min_distance(self):
+        self.curr_env.min_distance = random.randint(0, 5)
+
+    def get_constraint(self, constraint_dict):
+        lst = constraint_dict[self.env_type][
+            self.constrained_object + str(self.curr_env.min_distance)
+        ]
+        return random.choice(lst)
+
+    def reset(self):
+        ret = super().reset()
+        self.reset_min_distance()
+        return ret
 
 
 class HW3DS(Env):
